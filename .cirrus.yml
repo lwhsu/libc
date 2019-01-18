@@ -1,20 +1,17 @@
-setup_script:
-  - pkg install -y curl
-  - curl https://sh.rustup.rs -sSf --output rustup.sh
-  - sh rustup.sh -y
-test_script:
-  - . $HOME/.cargo/env
-  - cd libc-test
-  - cargo test
-
-freebsd_12_task:
+task:
   # This name gets reported as a build status in GitHub
-  name: 12-0-release x86_64-unknown-freebsd
-  freebsd_instance:
-    image: freebsd-12-0-release-amd64
-
-freebsd_11_task:
-  # This name gets reported as a build status in GitHub
-  name: 11-2-release x86_64-unknown-freebsd
-  freebsd_instance:
-    image: freebsd-11-2-release-amd64
+   matrix:
+     - freebsd_instance:
+         image: freebsd-12-0-release-amd64
+       name: 12-0-release x86_64-unknown-freebsd
+     - freebsd_instance:
+         image: freebsd-11-2-release-amd64
+       name: 11-2-release x86_64-unknown-freebsd
+  setup_script:
+    - pkg install -y curl
+    - curl https://sh.rustup.rs -sSf --output rustup.sh
+    - sh rustup.sh -y
+  test_script:
+    - . $HOME/.cargo/env
+    - cd libc-test
+    - cargo test
